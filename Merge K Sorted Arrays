@@ -1,0 +1,67 @@
+// code 
+
+
+#include <bits/stdc++.h>
+#include<queue>
+class node 
+{
+    public:
+    int data;
+    int a;
+    int b;
+
+    node(int data, int row, int col)
+    {
+        this->data = data;
+        a = row;
+        b= col;
+    }
+};
+
+class compare{
+    public:
+
+    bool operator()(node*a , node*b)
+    {
+        return a->data > b->data;
+    }
+};
+
+
+vector<int> mergeKSortedArrays(vector<vector<int>>&kArrays, int k)
+{
+    // Write your code here. 
+
+    priority_queue<node* , vector<node*>, compare> minHeap;
+
+//   Step 1
+
+    for(int i =0; i < k; i++)
+    {
+        node* temp = new node(kArrays[i][0] , i, 0);
+        minHeap.push(temp);
+    }
+    
+    // Step 2 
+
+     vector<int> ans;
+
+    while(minHeap.size() > 0)
+    {
+        node * store = minHeap.top();
+        ans.push_back(store->data);
+        minHeap.pop();
+
+        int i = store->a;
+        int j = store->b;
+
+        if(j+1 < kArrays[i].size())
+        {
+            node *next = new node(kArrays[i][j+1], i , j+1);
+            minHeap.push(next);
+        }
+
+
+    }
+  return ans;
+}
