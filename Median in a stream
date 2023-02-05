@@ -1,0 +1,94 @@
+// Code ->   
+
+
+
+#include<queue>
+
+int sigman(int a, int b){
+if(a==b)
+	  return 0;
+
+	else if(a > b)
+	   return 1;
+	
+	else
+	  return -1;
+}
+
+void callMadian(int element,priority_queue<int> &maximum ,
+priority_queue<int , vector<int>, greater<int> > &minimum , int &middle)
+{
+	switch(sigman( maximum.size() , minimum.size()) )
+	{
+
+		case 0: if(element > middle)
+		       {
+			 minimum.push(element);
+			 middle =minimum.top();
+		       }
+
+		      else
+          {
+			 maximum.push(element);
+			 middle =maximum.top();
+		       }
+
+		    break;
+
+
+		case 1: if(element > middle)
+		       {
+			 minimum.push(element);
+			 middle = (minimum.top() + maximum.top())/2;
+		       }
+
+		      else
+          {
+			 minimum.push(maximum.top());
+			 maximum.pop();
+			 maximum.push(element);
+			  middle = (minimum.top() + maximum.top())/2;
+		       }
+
+		    break;
+		
+		case -1: if(element > middle)
+		       {
+			 maximum.push(minimum.top());
+			 minimum.pop();
+			 minimum.push(element);
+			 middle = (minimum.top() + maximum.top())/2;
+		       }
+
+			   else
+			   {
+				   maximum.push(element);
+				middle = (minimum.top() + maximum.top())/2;
+			   }
+			break;
+
+
+
+	}
+}
+
+
+
+vector<int> findMedian(vector<int> &arr, int n){
+	
+	// Write your code here 
+
+	vector<int> ans;
+
+	priority_queue<int> maxHeap;
+	priority_queue<int , vector<int>, greater<int>> minHeap;
+	int median = 0;
+
+	for(int i =0; i<n; i++)
+	{
+		callMadian(arr[i],maxHeap, minHeap, median);
+		ans.push_back(median);
+	}
+
+	return ans;
+}
