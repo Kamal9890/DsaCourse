@@ -1,0 +1,83 @@
+// Code ->
+
+
+#include<iostream>
+#include<limits.h>
+#include<queue>
+
+class node
+{
+    public:
+    int data;
+    int row;
+    int col;
+
+    node(int d1 , int r1, int c1)
+    {
+        data = d1;
+        row = r1;
+        col = c1;
+    }
+};
+
+
+class compare
+{
+    public:
+    bool operator()(node*a , node*b)
+    {
+       return a->data > b->data;
+    }
+
+};
+
+int kSorted(vector<vector<int>> &a, int k, int n) {
+    // Write your code here.
+
+    int minimum = INT_MAX;
+    int maximum = INT_MIN;
+
+    priority_queue<node* , vector<node*> , compare> minHeap;
+
+    for(int i =0; i<k; i++)
+    {
+        int element = a[i][0];
+        minimum = min(minimum,element);
+        maximum = max(maximum, element);
+        minHeap.push(new node(element,i,0));
+    }
+
+    int start = minimum;
+    int end = maximum;
+
+    while(!minHeap.empty())
+    {
+        node *temp = minHeap.top();
+
+        minHeap.pop();
+        minimum = temp->data;
+
+
+        if(maximum - minimum < end - start)
+        {
+            start =minimum;
+            end = maximum;
+        }
+
+
+        if(temp->col + 1 < n)
+        {
+            maximum = max(maximum , a[temp->row][temp->col+1]);
+            minHeap.push(new node(a[temp->row][temp->col+1], temp->row, temp->col+1));
+
+        }
+
+        else{
+            break;
+        }
+    }
+
+    return (end-start +1);
+
+
+}
