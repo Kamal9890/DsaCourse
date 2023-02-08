@@ -1,0 +1,37 @@
+#include<iostream>
+#include<map>
+#include<unordered_map>
+using namespace std;
+
+int main()
+{
+
+         // creation
+    unordered_map<string ,int> a;
+
+    // insertion
+     //1
+
+    pair<string,int>  p = make_pair("Kamal ", 3);
+    a.insert(p);
+
+    // 2
+    pair<string,int> pair2("Pandey" ,2);
+    a.insert(pair2);
+
+
+    // 
+    a["mera"] =1;
+
+    // what will happen 
+
+    a["mera"] =2;
+
+    // find 
+
+    cout<<a["mera"]<<endl;
+
+
+
+
+}
