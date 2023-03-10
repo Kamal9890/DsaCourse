@@ -1,0 +1,63 @@
+// code
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+class Solution
+{
+  public:
+    string secFrequent (string arr[], int n)
+    {
+        //code here.
+        
+        map<string, int> m;
+        
+        for(int i = 0; i<n; i++)
+          m[arr[i]]++;
+          
+          int max =0,max2;
+          
+          for(auto pr : m)
+          {
+              if(pr.second > max2 && pr.second < max)
+                max2 = pr.second;
+                
+                if(pr.second > max)
+                {
+                  max2 = max;
+                  max = pr.second;
+                }
+          }
+          
+          string key;
+          
+          for(auto i : m)
+          {
+              if(i.second == max2)
+                 return i.first;
+          }
+          
+          return "";
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        int n; cin >> n;
+        string arr[n];
+        for (int i = 0; i < n; ++i)
+            cin >> arr[i];
+        Solution ob;
+        cout << ob.secFrequent (arr, n) << endl;
+    }
+}
+// Contributed By: Pranay Bansal
+
+// } Driver Code Ends
