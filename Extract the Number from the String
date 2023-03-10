@@ -1,0 +1,128 @@
+// code 
+
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+    public:
+    
+    
+    
+    long long ExtractNumber(string S){
+        
+        //code here
+        
+       vector<string> v;
+       
+       string str = "";
+       
+       for(int i =0; i<S.size(); i++)
+       {
+           if(S[i]!=' ')
+           {
+               str +=S[i];
+               
+           }
+           
+           else
+           {
+               v.push_back(str);
+               str="";
+           }
+       }
+       
+       if(str.size() > 0)
+       {
+           v.push_back(str);
+           str ="";
+       }
+       
+       bool flag = false;
+       
+       long long maxx = INT_MIN;
+       
+       long long num = 0;
+       
+       for(long long i =0;  i< v.size(); i++)
+       {
+           str = v[i];
+           
+           long long k= 0;
+           
+           for(long long j =0; j <str.size(); j++)
+           {
+               if(isalpha(str[j]))
+               {
+                   num = 0;
+                   break;
+               }
+               
+               else
+               {
+                   if((str[j] -48) == 9 )
+                   {
+                       num = 0;
+                       break;
+                   }
+                   
+                   k++;
+                   num = num*10+(str[j] -48);
+               }
+           }
+           
+           if(maxx < num)
+           {
+               maxx = num;
+               
+               num =0;
+           }
+           
+           if(k==v[i].size())
+           {
+               flag = true;
+           }
+           
+           num =0;
+       }
+       
+       if(flag == true)
+       {
+           return maxx;
+       }
+       return -1;
+        
+    }
+};
+
+//{ Driver Code Starts.
+int main() 
+{
+   
+   	ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+   
+   	int t;
+   	string tc;
+   	getline(cin, tc);
+   	t = stoi(tc);
+   	while(t--)
+   	{
+   		string s;
+   		getline(cin, s);
+
+   	
+        Solution ob;
+   		cout << ob.ExtractNumber(s) << "\n";
+   	}
+
+    return 0;
+}
+
+// } Driver Code Ends
