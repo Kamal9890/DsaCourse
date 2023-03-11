@@ -1,0 +1,62 @@
+// code 
+
+//{ Driver Code Starts
+// Initial Template for C++
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int minTime(int S1, int S2, int N){
+        // code here
+        
+        int mintime,maxtime;
+        
+        if(S1 <= S2)
+        {
+            mintime = S1;
+            maxtime = S2;
+        }
+        
+        else
+        {
+            mintime = S2;
+            maxtime = S1;
+        }
+        
+        if(mintime *N <= maxtime)
+        {
+            return N*mintime;
+        }
+        
+        int x = (N*maxtime) / ( S1+S2);
+        
+        int a = N-x;
+        int b = x+1;
+        int c = N-b;
+        
+        int ans1 = max(x*mintime , a*maxtime);
+        int ans2 = max(b*mintime , c*maxtime);
+        
+        return min(ans1,ans2);
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int S1, S2, N;
+        cin>>S1>>S2>>N;
+        
+        Solution ob;
+        cout<<ob.minTime(S1, S2, N)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
