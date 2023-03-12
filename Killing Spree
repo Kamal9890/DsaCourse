@@ -1,0 +1,50 @@
+// code
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+public:
+    long long int killinSpree(long long int n)
+    {
+        // Code Here
+        
+        long ct = 0, i=1;
+        
+        do
+        {
+            n = n-i*i;
+            
+            if(n >= 0)
+            {
+                ct++;
+            }
+            i++;
+        }
+        
+        while( n>= 0);
+        return ct;
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        long long int n; cin>>n;
+        Solution obj;
+        long long int ans = obj.killinSpree(n);
+        cout<<ans<<"\n";
+    }
+    return 0;
+}
+
+// } Driver Code Ends
