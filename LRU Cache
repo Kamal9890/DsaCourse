@@ -1,0 +1,159 @@
+// code 
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// design the class in the most optimal way
+
+class LRUCache
+{
+    private:
+    
+    class Node
+    {
+        public :
+        int key;
+        int value;
+        
+        Node *prev;
+        Node *next;
+        
+        Node (int x , int y)
+        {
+            key = x;
+            
+            value = y;
+            prev = next = nullptr;
+        }
+    };
+    
+    unordered_map<int , Node*> mp;
+    Node *head = new Node(-1,-1);
+    Node *tail = new Node(-1,-1);
+    int size;
+    
+    void insertAfterHead(Node *ptr)
+    {
+        ptr->next = head->next;
+        head->next->prev = ptr;
+        head->next   = ptr;
+        ptr->prev = head;
+        
+    }
+    
+    void moveToFirst(Node *temp)
+    {
+        Node *l = temp->prev;
+        Node *r = temp->next;
+        l->next = r;
+        r->prev = l;
+        
+        insertAfterHead(temp);
+    }
+
+    public:
+    //Constructor for initializing the cache capacity with the given value.
+    LRUCache(int cap)
+    {
+        // code here
+        head->next = tail;
+        tail->prev = head;
+        size = cap;
+    }
+    
+    //Function to return value corresponding to the key.
+    int GET(int key)
+    {
+        // your code here
+        
+        if(mp.find(key ) == mp.end() )
+        {
+            return -1;
+        }
+        
+        else
+        {
+            Node *temp =mp[key];
+            int val = temp->value;
+            
+            moveToFirst(temp);
+            
+            return val;
+        }
+    }
+    
+    //Function for storing key-value pair.
+    void SET(int key, int value)
+    {
+        // your code here   
+        
+        if(mp.find(key) != mp.end())
+        {
+            mp[key]->value = value;
+            moveToFirst(mp[key]);
+            return;
+            
+        }
+        
+        if(mp.size() == size)
+        {
+            Node *temp = tail->prev;
+            mp.erase(temp->key);
+            
+            temp->prev->next = tail;
+            tail->prev = temp->prev;
+            
+            delete temp;
+        }
+        
+        Node *ptr = new Node(key,value);
+        
+        mp[ptr->key] = ptr;
+        
+        insertAfterHead(ptr);
+        }
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+
+        int capacity;
+        cin >> capacity;
+        LRUCache *cache = new LRUCache(capacity);
+        
+        int queries;
+        cin >> queries;
+        while (queries--)
+        {
+            string q;
+            cin >> q;
+            if (q == "SET")
+            {
+                int key;
+                cin >> key;
+                int value;
+                cin >> value;
+                cache->SET(key, value);
+            }
+            else
+            {
+                int key;
+                cin >> key;
+                cout << cache->GET(key) << " ";
+            }
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
