@@ -1,0 +1,75 @@
+// code 
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+int countRev (string s);
+int main()
+{
+    int t; cin >> t;
+    while (t--)
+    {
+        string s; cin >> s;
+        cout << countRev (s) << '\n';
+    }
+}
+
+// Contributed By: Pranay Bansal
+// } Driver Code Ends
+
+
+
+int countRev (string s)
+{
+    // your code here
+    
+    if(s.length() %2 != 0)
+    
+    return -1;
+    
+    stack<char> st1;
+    stack<char> st2;
+    
+    int count = 0;
+    
+    for(int i = 0; s[i] != '\0'; i++)
+    {
+        if(s[i] == '{')
+        {
+            st1.push(s[i]);
+        }
+        
+        else
+        {
+            if(st1.empty())
+            {
+                if(st2.empty())
+                st2.push(s[i]);
+                
+                else
+                {
+                    st2.pop();
+                    count += 1;
+                }
+            }
+            
+            else st1.pop();
+        }
+    }
+    
+    while(!st1.empty() && !st2.empty())
+    {
+        st1.pop();
+        st2.pop();
+        count += 2;
+    }
+    if(!st1.empty())
+      count += (st1.size()/2);
+      
+      if(!st2.empty())
+      count += (st2.size()/2);
+      
+      return count;
+    
+}
