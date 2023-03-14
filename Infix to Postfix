@@ -1,0 +1,104 @@
+// code 
+
+//{ Driver Code Starts
+// C++ implementation to convert infix expression to postfix
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+  public:
+  
+  
+  int precendence(char ch)
+  {
+      if(ch == '^')
+      return 3;
+      
+      else if(ch == '/' || ch == '*')
+      return 2;
+      
+      else if(ch == '+' || ch =='-')
+      return 1;
+      
+      else 
+        return -1;
+  }
+  
+  bool isChar(char c)
+  {
+      if(c =='/' || c ==  '*' || c== '+' || c== '-' || c ==')' || c =='(' || c == '^')
+        return false;
+        
+        else 
+        return true;
+  }
+    // Function to convert an infix expression to a postfix expression.
+    string infixToPostfix(string s) {
+        // Your code here
+        
+        stack<char> pref;
+        
+        string ans ="";
+        
+        for(char ch : s)
+        {
+            if(isChar(ch))
+            {
+                ans +=ch;
+            }
+            
+            else if(ch == '(')
+            {
+                pref.push(ch);
+            }
+            
+            else if(ch == ')')
+            {
+                while(pref.top()!= '(')
+                {
+                    ans += pref.top();
+                    pref.pop();
+                }
+                pref.pop();
+            }
+            
+            else
+            {
+                while(!pref.empty() && precendence(ch) <= precendence(pref.top()))
+                {
+                    ans += pref.top();
+                    pref.pop();
+                }
+                
+                pref.push(ch);
+            }
+        }
+        
+        while(!pref.empty())
+        {
+            ans+= pref.top();
+            pref.pop();
+        }
+        return ans;
+    }
+};
+
+
+//{ Driver Code Starts.
+// Driver program to test above functions
+int main() {
+    int t;
+    cin >> t;
+    cin.ignore(INT_MAX, '\n');
+    while (t--) {
+        string exp;
+        cin >> exp;
+        Solution ob;
+        cout << ob.infixToPostfix(exp) << endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
