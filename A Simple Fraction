@@ -1,0 +1,67 @@
+// code 
+
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+	public:
+	string fractionToDecimal(int numerator, int denominator) {
+	    // Code here
+	    
+	    int add = numerator/denominator;
+	    int dec = numerator % denominator;
+	    
+	    string ans =  to_string(add);
+	    
+	    if(dec == 0)
+	      return ans;
+	      
+	      unordered_map<int,int> mp;
+	      
+	      mp.clear();
+	      
+	      ans+= ".";
+	      
+	      while(dec != 0)
+	      {
+	          if(mp.count(dec))
+	          {
+	              ans.insert(mp[dec], "(");
+	              ans+=")";
+	              
+	              return ans;
+	          }
+	          
+	          else
+	          {
+	              mp[dec] = ans.length();
+	              dec*=10;
+	              
+	              int q =dec/denominator;
+	              
+	              dec= dec%denominator;
+	              
+	              ans +=to_string(q);
+	          }
+	      }
+	    return ans;
+	}
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int numerator, denominator;
+		cin >> numerator >> denominator;
+		Solution ob;
+		string ans = ob.fractionToDecimal(numerator, denominator);
+		cout << ans <<"\n";
+	}
+	return 0;
+}
+// } Driver Code Ends
