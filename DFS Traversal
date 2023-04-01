@@ -1,0 +1,64 @@
+//code 
+
+
+
+
+#include<unordered_map>
+
+void dfs(int node,  unordered_map<int,bool> &visi,unordered_map <int,list<int>> &adj ,
+               vector<int> &compo )
+
+{
+    compo.push_back(node);
+
+    visi[node] = true;
+
+    // hr node connected node recursive call
+
+    for(auto i : adj[node])
+    {
+        if(!visi[i])
+        {
+            dfs(i,visi,adj,compo);
+        }
+    }
+}
+vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
+{
+    // Write your code here
+
+    //prepare adList 
+
+    unordered_map <int,list<int>> adj;
+
+
+    for(int i =0 ; i< edges.size(); i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+
+    }
+
+    vector<vector<int>> ans;
+
+    unordered_map<int,bool> visi;
+
+    for(int i =0; i<V; i++)
+    {
+        if(!visi[i])
+        {
+            vector<int> compo;
+
+            dfs(i ,visi,adj,compo);
+
+            ans.push_back(compo);
+
+        }
+    }
+    return ans;
+
+    
+}
