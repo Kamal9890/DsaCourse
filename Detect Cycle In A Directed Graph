@@ -1,0 +1,71 @@
+//code 
+
+
+#include<unordered_map>
+#include<list>
+
+
+
+bool checkCycleDFS(int  node , unordered_map<int,bool> &visi, 
+unordered_map<int,bool> &dfsvisi,unordered_map<int , list<int> > adj)
+{
+   visi[node] = true;
+
+   dfsvisi[node] = true;
+
+   for(auto neighbour : adj[node])
+   {
+     if(!visi[neighbour])
+     {
+       bool cycledetected= checkCycleDFS(neighbour,visi,dfsvisi, adj);
+
+       if(cycledetected)
+         return true;
+     }
+
+     else if(dfsvisi[neighbour]){
+       // visited
+       return true;
+
+     }
+   }
+
+   dfsvisi[node]= false;
+   return false;
+}
+
+
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  // Write your code here.
+
+  unordered_map<int , list<int> > adj;
+
+  for(int i =0 ; i<edges.size(); i++)
+  {
+      int u = edges[i].first;
+      int v = edges[i].second;
+
+      adj[u].push_back(v);
+
+
+  }
+
+  // call dfs for all components 
+
+  unordered_map<int,bool> visi;
+  unordered_map<int,bool> dfsvisi;
+
+  for(int i =1 ; i<= n; i++)
+  {
+    if(!visi[i])
+    {
+      bool cyclefound = checkCycleDFS(i,visi,dfsvisi,adj);
+
+      if(cyclefound)
+      return true;
+    }
+  }
+
+  return false;
+
+}
